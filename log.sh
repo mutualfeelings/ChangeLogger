@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Version 1.1
+#Version 1.2
 
 #variables
 lvl=$2
@@ -47,6 +47,17 @@ goods() {
     sed -i "s/<Logger name=\"ru.crystals.pos.catalog\" level=\".*\">/<Logger name=\"ru.crystals.pos.catalog\" level=\"$lvl\">/" $path
 }
 
+#Изменение конфигурации
+#ru.crystals.pos.configurator - Загрузка и изменение конфигурации кассового модуля
+#ru.crystals.pos.property - Обновлений в таблице SMP, пришедших с сервера
+config() {
+    loggerConfig="ru.crystals.pos.configurator ru.crystals.pos.property"
+
+    for logger in $loggerConfig; do
+        sed -i "s/<Logger name=\"$logger\" level=\".*\">/<Logger name=\"$logger\" level=\"$lvl\">/" $path
+    done
+}
+
 #Остальные логеры, которые чаще всего находятся в error
 #org.eclipse org.glassfish.jersey ru.crystals.set10client ru.crystals.cashclient ru.crystals.json - Системные события кассового модуля
 #org.hibernate - Логирование системных событий между базой данных и кассовым модулем.
@@ -65,12 +76,14 @@ case "$1" in
     touch) touch;;
     marks) marks;;
     goods) goods;;
+    config) config;;
     other) other;;
     *) printf "Please, enter logger: \n \
 main \n \
 loy \n \
 touch \n \
 marks \n \
+config \n \
 other \n \
 goods"
         exit 1
