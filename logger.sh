@@ -1,7 +1,11 @@
 #version 1.1
 
+#variables
 lvl=$2
-path="log4j.xml"
+#path="/home/tc/storage/crystal-cash/modules/loader/log4j.xml"
+path="/Users/Anton/VScode/ChangeLogger/log.sh"
+
+#Основные логеры, используемы при анализе
 
 mainLogger() {
     local loggers=(
@@ -33,6 +37,7 @@ mainLogger() {
     done
 }
 
+#Логеры тач кассы
 
 touch() {
     local loggersTouch=(
@@ -44,6 +49,8 @@ touch() {
         sed -i '' "s/<Logger name=\"$logger\" level=\".*\">/<Logger name=\"$logger\" level=\"$lvl\">/" $path
     done
 }
+
+#Логеры лояльности, включая для слс
 
 loy() {
     local loggersLoy=(
@@ -60,9 +67,13 @@ loy() {
     done
 }
 
+#Логер goods
+
 goods() {
     sed -i '' "s/<Logger name=\"ru.crystals.pos.catalog\" level=\".*\">/<Logger name=\"ru.crystals.pos.catalog\" level=\"$lvl\">/" $path
 }
+
+#Логеры необходимые для анализа валидации марки
 
 marks() {
     local markLoggers=(
@@ -75,6 +86,8 @@ marks() {
         sed -i '' "s/<Logger name=\"$logger\" level=\".*\">/<Logger name=\"$logger\" level=\"$lvl\">/" $path
     done    
 }
+
+#Остальные логеры, которые чаще всего находятся в error
 
 other() {
     local otherLoggers=(
