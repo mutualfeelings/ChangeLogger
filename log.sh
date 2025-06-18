@@ -4,7 +4,7 @@
 
 # variables
 if [ -z "$2" ]; then
-    echo "Укажите уровень логирования (например, INFO, DEBUG, TRACE) вторым аргументом."
+    echo "Укажите уровень логирования (например: ERROR, INFO, DEBUG, TRACE) вторым аргументом."
     exit 1
 fi
 LVL=$2
@@ -75,4 +75,6 @@ case "$1" in
     *) printf "Please, enter logger: \nmain\nloy\nmarks\nconfig\nother\ngoods\n"
         exit 1
 esac
+
+echo "Уровень логирования для $1 установлен на $LVL"
 exit 0
